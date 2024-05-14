@@ -10,8 +10,5 @@ rl.on('line', function (line) {
     input = [line];
 }).on('close',function(){
     str = input[0];
-    str = [...str];
-    for (i = 0; i < str.length; i++){
-        console.log(str[i]);
-    }
+    [...str].forEach(c => console.log(c))
 });
