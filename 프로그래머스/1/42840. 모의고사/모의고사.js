@@ -16,18 +16,13 @@ function solution(answers) {
         else return 0;
     }).reduce((a,b)=>a+b, 0);
     
-    let obj = [
-        {name: 1, cnt: cntStudent1},
-        {name: 2, cnt: cntStudent2},
-        {name: 3, cnt: cntStudent3},
-    ];
+    let scores = [cntStudent1, cntStudent2, cntStudent3];
+    let maxScore = Math.max(...scores);
     
-    const maxCnt = Math.max(...obj.map(item => item.cnt));
+    let answer = [];
+    if (cntStudent1 === maxScore) answer.push(1);
+    if (cntStudent2 === maxScore) answer.push(2);
+    if (cntStudent3 === maxScore) answer.push(3);
     
-    const maxNames = obj
-        .filter(item => item.cnt === maxCnt)
-        .map(item => item.name);
-    
-    return maxNames.sort((a, b) => a - b);
-    
+    return answer;
 }
