@@ -1,27 +1,20 @@
 function solution(N, stages) {
-    let stageArray = [];
+    let challenger = new Array(N+2).fill(0);
+    for (const stage of stages){
+        challenger[stage]++;
+    }
     
-    for (let i = 0; i < N ;i++){
+    const stageArray = [];
+    let total = stages.length;
+    
+    for (let i = 1; i <= N; i++){
         stageArray.push({
-            "stage": i+1,
-            "failRate": 0,
+            "stage": i,
+            "failRate": challenger[i] / total,
         })
+        total -= challenger[i];
     }
     
-    for (let i = 0; i < N; i++){
-        let reachNum = 0;
-        let notClearNum = 0;
-        
-        for (let j = 0; j < stages.length; j++){
-            if (stages[j] >= i+1){
-                reachNum++;
-                if (stages[j] === i+1) notClearNum++;
-            }
-        }
-        stageArray[i].failRate = notClearNum / reachNum;
-    }
-    
-    stageArray.sort((a, b) => b.failRate - a.failRate);    
-    
+    stageArray.sort((a, b) => b.failRate - a.failRate);
     return stageArray.map(item => item.stage);
 }
