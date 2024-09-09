@@ -15,7 +15,7 @@ class Queue {
     this.size = 0;
   }
 
-  push(data){
+  enqueue(data){
     const newNode = new Node(data);
 
     if (!this.head) { // 큐가 비어있을 때
@@ -30,7 +30,7 @@ class Queue {
     this.size++;
   }
 
-  pop(){
+  dequeue(){
     if (!this.head){
       return null;
     }
