@@ -16,30 +16,17 @@ function sumSerial(serial) {
 }
 
 const N = Number(input[0]);
-const array = [];
+const array = input.slice(1);
 
-for (let i = 1; i <= N; i++) {
-  array.push(input[i]);
-}
+array.sort((a, b) => {
+  if (a.length !== b.length) return a.length - b.length;
+  
+  const sumA = sumSerial(a);
+  const sumB = sumSerial(b);
+  if (sumA !== sumB) return sumA - sumB;
+  
+  return a.localeCompare(b);
+});
 
-for (let i = 0; i < N; i++) {
-  for (let j = 0; j < N; j++) {
-    if (array[i].length < array[j].length) {
-      [array[i], array[j]] = [array[j], array[i]];
-    }
-
-    else if (array[i].length === array[j].length) {
-      if (sumSerial(array[i]) < sumSerial(array[j])) {
-        [array[i], array[j]] = [array[j], array[i]];
-      }
-
-      else if (sumSerial(array[i]) === sumSerial(array[j])) {
-        if (array[i] < array[j]) {
-          [array[i], array[j]] = [array[j], array[i]];
-        }
-      }
-    }
-  }
-}
 
 console.log(array.join('\n'))
