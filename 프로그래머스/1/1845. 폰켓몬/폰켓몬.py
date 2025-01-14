@@ -1,5 +1,2 @@
 def solution(nums):
-    types = len(set(nums))
-    half = len(nums)//2
-    
-    return types if (types < half) else half
+    return min(len(nums)//2, len(set(nums)))
