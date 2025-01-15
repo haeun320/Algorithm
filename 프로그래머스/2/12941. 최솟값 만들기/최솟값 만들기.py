@@ -1,9 +1,2 @@
 def solution(A,B):
-    result = 0
-    A.sort(reverse = True)
-    B.sort()
-    
-    for i in range(len(A)):
-        result += A.pop() * B.pop()
-    
-    return result
+    return sum([a*b for (a,b) in zip(sorted(A), sorted(B, reverse=True))])
