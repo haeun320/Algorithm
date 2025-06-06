@@ -1,18 +1,20 @@
 from collections import deque
 
-def visited_index(x, y, N):
-    return N * y + x
+N = int(input())
+graph = []
+
+max_h = 0
+for i in range(N):
+    arr = list(map(int, input().split()))
+    graph.append(arr)
+    max_h = max(max_h, max(arr))
 
 def bfs(graph, visited, start_x, start_y, N, h):
-    if graph[start_y][start_x] <= h:
-        visited[visited_index(start_x, start_y, N)] = True
-        return 0
+    visited[start_y][start_x] = True
+    q = deque([(start_x, start_y)])
 
     nx = [0, 0, -1, 1]
     ny = [-1, 1, 0, 0]
-
-    q = deque([(start_x, start_y)])
-    visited[visited_index(start_x, start_y, N)] = True
 
     while q:
         vx, vy = q.popleft()
@@ -21,45 +23,36 @@ def bfs(graph, visited, start_x, start_y, N, h):
             x = vx + nx[i]
             y = vy + ny[i]
 
-            if x < 0 or x >= N or y < 0 or y >= N:
+            if (x < 0 or x >= N or y < 0 or y >= N):
                 continue
 
-            visited_idx = visited_index(x, y, N)
+            if (graph[y][x] <= h):
+                visited[y][x] = True
 
-            if graph[y][x] <= h:
-                visited[visited_idx] = True
-                continue
-
-            if not visited[visited_idx]:
+            if not visited[y][x]:
+                visited[y][x] = True
                 q.append((x, y))
-                visited[visited_idx] = True
 
     return 1
 
-def solve(N, graph):
-    max_height = 0
-    for row in graph:
-        max_height = max(max_height, max(row))
+max_area = 0
+for h in range(max_h+1):
+    area = 0
+    visited = [[False]*N for _ in range(N)]
 
-    max_region = 0
-    for h in range(0, max_height+1):
-        visited = [False] * (N ** 2)
-        region = 0
+    for i in range(N*N):
+        y = i // N
+        x = i % N
 
-        for idx in range(N ** 2):
-            if visited[idx]:
-                continue
+        if visited[y][x]:
+            continue
 
-            y = idx // N
-            x = idx % N
-            if graph[y][x] > h:
-                region += bfs(graph, visited, x, y, N, h)
+        if graph[y][x] <= h:
+            visited[y][x] = True
+            continue
 
-        max_region = max(max_region, region)
+        area += bfs(graph, visited, x, y, N, h)
 
-    return max_region
+    max_area = max(max_area, area)
 
-N = int(input())
-graph = [list(map(int, input().split())) for _ in range(N)]
-
-print(solve(N, graph))
+print(max_area)
