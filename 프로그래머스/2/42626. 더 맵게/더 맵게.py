@@ -1,10 +1,9 @@
 import heapq
 
 def check_scoville(arr, K):
-    for item in arr:
-        if item < K:
-            return False
-    return True # 모두 K 이상
+    if arr[0] >= K:
+        return True
+    return False
 
 def solution(scoville, K):
     heapq.heapify(scoville)
