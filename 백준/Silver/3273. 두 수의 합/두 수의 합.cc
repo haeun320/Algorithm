@@ -1,11 +1,12 @@
 #include <bits/stdc++.h>  
 using namespace std;  
 
-int main() {  
+int n, arr[100001], x, cnt = 0;
+bool occur[2000001] = { false };
+
+int main(void) {  
    ios::sync_with_stdio(0);  
    cin.tie(0);  
-
-   int n, arr[100001], x, cnt = 0;
 
    cin >> n;  
 
@@ -14,21 +15,9 @@ int main() {
    }  
    cin >> x;  
 
-   sort(arr, arr + n);
-   
-   int p1 = 0;
-   int p2 = n - 1;
-
-   while (p2 > p1) {
-       if (arr[p1] + arr[p2] > x)
-           p2--;
-       else if (arr[p1] + arr[p2] < x)
-           p1++;
-       else {
-           p1++;
-           p2--;
-           cnt++;
-       }
+   for (int i = 0; i < n; i++) {
+       if (x - arr[i] > 0 && occur[x - arr[i]]) cnt++;
+       occur[arr[i]] = true;
    }
 
    cout << cnt;
