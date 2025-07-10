@@ -5,19 +5,17 @@ int main() {
    ios::sync_with_stdio(0);  
    cin.tie(0);  
 
-   int n, x, cnt = 0;  
+   int n, arr[100001], x, cnt = 0;
 
    cin >> n;  
-
-   vector<int> arr(n);
 
    for (int i = 0; i < n; i++) {  
        cin >> arr[i];  
    }  
    cin >> x;  
-   
-   sort(arr.begin(), arr.end());
 
+   sort(arr, arr + n);
+   
    int p1 = 0;
    int p2 = n - 1;
 
@@ -28,6 +26,7 @@ int main() {
            p1++;
        else {
            p1++;
+           p2--;
            cnt++;
        }
    }
