@@ -1,58 +1,58 @@
 from collections import deque
 
 N = int(input())
-graph = []
+area = []
 
-max_h = 0
 for i in range(N):
-    arr = list(map(int, input().split()))
-    graph.append(arr)
-    max_h = max(max_h, max(arr))
+    area.append(list(map(int, input().split())))
 
-def bfs(graph, visited, start_x, start_y, N, h):
-    visited[start_y][start_x] = True
-    q = deque([(start_x, start_y)])
+def bfs(visited, x, y, rain):
+    visited[y][x] = True
 
-    nx = [0, 0, -1, 1]
-    ny = [-1, 1, 0, 0]
+    if area[y][x] <= rain:
+        return 0
+    
+    q = deque([(x, y)])
+
+    dy = [-1, 1, 0, 0]
+    dx = [0, 0, -1, 1]
 
     while q:
-        vx, vy = q.popleft()
+        x, y = q.popleft()
 
         for i in range(4):
-            x = vx + nx[i]
-            y = vy + ny[i]
+            nx = x + dx[i]
+            ny = y + dy[i]
 
-            if (x < 0 or x >= N or y < 0 or y >= N):
+            if nx < 0 or nx >= N or ny < 0 or ny >= N:
                 continue
 
-            if (graph[y][x] <= h):
-                visited[y][x] = True
+            if not visited[ny][nx]:
+                visited[ny][nx] = True
 
-            if not visited[y][x]:
-                visited[y][x] = True
-                q.append((x, y))
+                if area[ny][nx] > rain:
+                    q.append((nx, ny))
 
     return 1
 
-max_area = 0
-for h in range(max_h+1):
-    area = 0
-    visited = [[False]*N for _ in range(N)]
+def solve():
+    result = 0
+    for rain in range(101):
+        visited = [[False] * N for _ in range(N)]
+        c = 0
 
-    for i in range(N*N):
-        y = i // N
-        x = i % N
+        for y in range(N):
+            for x in range(N):
+                if visited[y][x]:
+                    continue
 
-        if visited[y][x]:
-            continue
+                c += bfs(visited, x, y, rain)
 
-        if graph[y][x] <= h:
-            visited[y][x] = True
-            continue
+        if c == 0:
+            break
 
-        area += bfs(graph, visited, x, y, N, h)
+        result = max(result, c)
 
-    max_area = max(max_area, area)
+    return result
 
-print(max_area)
+print(solve())
