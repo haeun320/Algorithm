@@ -3,7 +3,6 @@ using namespace std;
 using ll = long long;
 
 ll func(ll a, ll b, ll c) {
-	if (b == 0) return 1;
 	if (b == 1) return a % c;
 
 	if (b % 2 == 1) {
