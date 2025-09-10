@@ -2,7 +2,7 @@ from collections import deque
 
 def bfs(visited, y, x, w, h, graph):
   q = deque([(y,x)])
-  visited[y][x] = False
+  visited[y][x] = True
 
   # 상하좌우대각선
   dy = [-1, -1, 0, 1, 1, 1, 0, -1]
