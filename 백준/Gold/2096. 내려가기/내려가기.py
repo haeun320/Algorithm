@@ -1,26 +1,21 @@
 N = int(input())
 
-arr = []
-for _ in range(N):
-  arr.append(list(map(int, input().split())))
-  
-mindp = arr[0]
-maxdp = arr[0]
+maxdp = list(map(int, input().split()))
+mindp = maxdp[:] # 얕은복사 (슬라이싱은 새로운 리스트를 생성함)
 
-for i in range(1, N):
-  maxtmp = [0]*3
-  mintmp = [0]*3
+for _ in range(N-1):
+  arr = list(map(int, input().split()))
   
-  maxtmp[0] = max(maxdp[:2]) + arr[i][0]
-  mintmp[0] = min(mindp[:2]) + arr[i][0]
+  maxdp = [
+    max(maxdp[:2]) + arr[0],
+    max(maxdp) + arr[1],
+    max(maxdp[1:]) + arr[2]
+  ]
   
-  maxtmp[1] = max(maxdp) + arr[i][1]
-  mintmp[1] = min(mindp) + arr[i][1]
-  
-  maxtmp[2] = max(maxdp[1:]) + arr[i][2]
-  mintmp[2] = min(mindp[1:]) + arr[i][2]
-  
-  maxdp = maxtmp
-  mindp = mintmp
+  mindp = [
+    min(mindp[:2]) + arr[0],
+    min(mindp) + arr[1],
+    min(mindp[1:]) + arr[2]
+  ]
   
 print(max(maxdp), min(mindp))
