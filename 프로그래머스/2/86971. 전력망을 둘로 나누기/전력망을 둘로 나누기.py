@@ -1,48 +1,45 @@
-from collections import deque
+uf = []
 
-def makeAdj(idx, wires, n):
-    '''파라미터: 끊을 전선 인덱스, 전선 배열, n / 리턴: 채워진 인접리스트'''
-    adj = [[] for _ in range(n+1)] # 인접리스트
+def find(a):
+    global uf
     
-    for i in range(n-1):
-        if i == idx:
-            continue # 끊을 전선 제외
-        a, b = wires[i]
-        adj[a].append(b)
-        adj[b].append(a)
-        
-    return adj
+    if uf[a] < 0:
+        return a
+    
+    uf[a] = find(uf[a])
+    return uf[a]
 
 
-def bfs(adj, n):
-    '''1 송전탑과 이어진 송전탑 개수 반환'''
-    visited = [False] * (n+1)
-    visited[1] = True
-    q = deque([1])
+def union(a, b):
+    global uf
     
-    cnt = 0
+    pa = find(a)
+    pb = find(b)
     
-    while q:
-        n = q.popleft()
-        cnt += 1
-        
-        for top in adj[n]:
-            if not visited[top]:
-                q.append(top)
-                visited[top] = True
-                
-    return cnt
+    if pa == pb:
+        return
     
+    uf[pa] += uf[pb]
+    uf[pb] = pa
+
 
 def solution(n, wires):
+    global uf
+    
     minAbs = 1e9
     
     for i in range(n-1):
-        adj = makeAdj(i, wires, n)
-        visited = [False] * (n+1) # 1-based
+        # 전선 잇기
+        uf = [-1] * (n+1) # 0 인덱스 무시
         
-        cnt = bfs(adj, n)
-        ab = abs(2*cnt - n)
-        minAbs = min(minAbs, ab)
-    
+        for j in range(n-1):
+            if i == j:
+                continue # 끊을 전선 무시
+            a, b = wires[j]
+            union(a, b)
+        
+        size = [x for x in uf[1:] if x < 0]
+        minAbs = min(minAbs, abs(size[0]-size[1]))
+        
     return minAbs
+            
