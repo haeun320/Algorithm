@@ -3,17 +3,22 @@ arr = []
 for i in range(n):
   arr.append(list(map(int, input().split())))
   
-dp = [[0]*n for _ in range(n)]
+dp = arr[0] # 이전 열까지의 합 (길이: 이전 열 요소 개수)
 
-dp[0][0] = arr[0][0]
-
+# 현재 열의 i번째 요소가 봐야하는 dp는 dp[i-1], dp[i]
+def Dp(row):
+  global dp
+  curr = []
+  for i in range(len(arr[row])):
+    c = 0
+    if i-1 >= 0:
+      c = dp[i-1] + arr[row][i]
+    if i < len(arr[row]) - 1:
+      c = max(c, dp[i]+arr[row][i])
+    curr.append(c)
+  dp = curr
+  
 for i in range(1, n):
-  for j in range(i+1):
-    if j-1 < 0:
-      dp[i][j] = dp[i-1][j] + arr[i][j]
-    elif j > i:
-      dp[i][j] = dp[i-1][j-1] + arr[i][j]
-    else:
-      dp[i][j] = max(dp[i-1][j-1], dp[i-1][j]) + arr[i][j]
-    
-print(max(dp[-1]))
+  Dp(i)
+  
+print(max(dp))
