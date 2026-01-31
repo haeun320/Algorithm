@@ -12,8 +12,9 @@ public class Main {
 			Stack<Character> stack = new Stack<>();
 			
 			for (int i = 0; i < str.length(); i++) {
-				if (stack.isEmpty() || stack.peek() != str.charAt(i)) {
-					stack.add(str.charAt(i));
+				char c = str.charAt(i);
+				if (stack.isEmpty() || stack.peek() != c) {
+					stack.add(c);
 				}
 				else {
 					stack.pop();
