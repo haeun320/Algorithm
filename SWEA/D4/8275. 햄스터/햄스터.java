@@ -31,14 +31,13 @@ public class Solution
         		}
         	}
         	sb.append("#").append(t);
-        	sum = 0;
+        	sum = -1;
         	result = null;
-        	bt(1);
+        	bt(1, 0);
         	if (result == null) {
         		sb.append(" ").append("-1").append("\n");
         		continue;
         	}
-        	
         	for (int i = 1; i < N+1; i++) {
         		sb.append(" ").append(result[i]);
         	}
@@ -47,27 +46,25 @@ public class Solution
         System.out.println(sb);
     }
     
-    // 만족하는 햄스터 배치가 있으면 true 반환
-    // 합이 가장 큰 순이기 때문에 뒤에서부터 탐색
-    public static void bt(int idx) {
-    	if (idx == N+1) {
-    		if (isPossible()) {
-    			int s = 0;
-    			for (int i = 1; i <= N; i++) {
-    				s += hm[i];
-    			}
-    			if (s >= sum) {
-    				sum = s;
-    				result = hm.clone();
-    			}
-    		}
-    		return;
-    	}
-    	
-    	for (int i = X; i >= 0; i--) { // 각 우리에 0~X마리 햄스터 가능
-    		hm[idx] = i;
-    		bt(idx+1);
-    	}
+    public static void bt(int idx, int currentSum) {
+        if (idx == N + 1) {
+            if (isPossible()) {
+                if (currentSum >= sum) {
+                    sum = currentSum;
+                    result = hm.clone();
+                }
+            }
+            return;
+        }
+
+        for (int i = X; i >= 0; i--) {
+            if (sum != -1 && currentSum + i + (N - idx) * X < sum) {
+                break;
+            }
+
+            hm[idx] = i;
+            bt(idx + 1, currentSum + i);
+        }
     }
     
     public static boolean isPossible() {
@@ -85,5 +82,4 @@ public class Solution
     	}
     	return true;
     }
-    
 }
