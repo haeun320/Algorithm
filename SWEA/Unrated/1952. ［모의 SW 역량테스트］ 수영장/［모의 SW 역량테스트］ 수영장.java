@@ -5,7 +5,6 @@ public class Solution
 {
 	static int[] price;
 	static int[] plan;
-	static int result;
 	
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -15,7 +14,7 @@ public class Solution
 		int T = Integer.parseInt(br.readLine());
 		for (int tc = 1; tc <= T; tc++) {
 			price = new int[4];
-			plan = new int[12];
+			plan = new int[13];
 			
 			// 입력 받기
 			st = new StringTokenizer(br.readLine());
@@ -23,31 +22,24 @@ public class Solution
 				price[i] = Integer.parseInt(st.nextToken());
 			}
 			st = new StringTokenizer(br.readLine());
-			for (int i = 0; i < 12; i++) {
+			for (int i = 1; i <= 12; i++) {
 				plan[i] = Integer.parseInt(st.nextToken());
 			}
 			
-			// 연산
-			result = price[3]; // 연간권 비용으로 초기화
-			dfs(0, 0);
-			
-			sb.append("#").append(tc).append(" ").append(result).append("\n");
+			sb.append("#").append(tc).append(" ").append(dp()).append("\n");
 		}
 		System.out.println(sb);
 	}
 	
-	public static void dfs(int month, int sum) {
-		if (sum >= result) return;
-		if (month >= 12) {
-			result = Math.min(result, sum);
-			return;
+	public static int dp() {
+		int[] table = new int[13];
+		table[1] = Math.min(price[0] * plan[1], price[1]);
+		table[2] = Math.min(table[1] + price[0] * plan[2], table[1] + price[1]);
+		
+		for (int i = 3; i <= 12; i++) {
+			table[i] = Math.min(table[i-1] + price[0] * plan[i], Math.min(table[i-1] + price[1], table[i-3] + price[2]));
 		}
 		
-		// 현재 달 1일권 선택
-		dfs(month+1, sum + plan[month] * price[0]);
-		// 현재 달 한달권 선택
-		dfs(month+1, sum + price[1]);
-		// 현재 달 3달권 선택
-		dfs(month+3, sum + price[2]);
+		return Math.min(table[12], price[3]);
 	}
 } 
