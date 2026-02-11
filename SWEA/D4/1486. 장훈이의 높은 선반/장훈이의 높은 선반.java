@@ -17,28 +17,32 @@ public class Solution
 			B = Integer.parseInt(st.nextToken()); // 필요한 최소 높이
 			st = new StringTokenizer(br.readLine(), " ");
 			h = new int[N];
+			int totalH = 0;
 			for (int i = 0; i < N; i++) {
 				h[i] = Integer.parseInt(st.nextToken());
+				totalH += h[i];
 			}
-			result = Integer.MAX_VALUE;
-			solve(0, 0);
+			
+			boolean[] dp = new boolean[totalH+1];
+			dp[0] = true;
+			
+			for (int height: h) {
+				for (int i = totalH; i >= height; i--) { // 뒤에서부터 현재 직원의 키까지
+					if (dp[i-height]) dp[i] = true;
+				}
+			}
+			
+			result = totalH;
+			for (int i = B; i <= totalH; i++) {
+				if (dp[i]) {
+					result = i;
+					break;
+				}
+			}
 			
 			sb.append("#").append(tc).append(" ").append(result-B).append("\n");
 		}
 		System.out.println(sb);
 	}
 	
-	public static void solve(int idx, int sum) {
-		if (idx == N) {
-			if (sum >= B) {
-				result = Math.min(sum, result);
-			}
-			return;
-		}
-		
-		// 현재 직원 선택
-		solve(idx+1, sum + h[idx]);
-		// 현재 직원 노선택
-		solve(idx+1, sum);
-	}
 } 
