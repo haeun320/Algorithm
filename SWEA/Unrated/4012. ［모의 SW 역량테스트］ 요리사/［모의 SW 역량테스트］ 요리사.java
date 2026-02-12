@@ -62,7 +62,5 @@ public class Solution
 			comb(pickCnt+1, i+1);
 			isSelected[i] = false;
 		}
-		
-		comb(pickCnt, idx+1);
 	}
 } 
