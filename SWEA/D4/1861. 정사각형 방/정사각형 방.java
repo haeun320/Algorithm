@@ -57,6 +57,7 @@ public class Solution
 				
 				if (map[nr][nc] == map[pos[0]][pos[1]]+1) {
 					q.add(new int[] {nr, nc, pos[2]+1});
+					break;
 				}
 			}
 		}
