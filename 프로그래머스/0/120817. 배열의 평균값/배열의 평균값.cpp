@@ -4,10 +4,9 @@
 using namespace std;
 
 double solution(vector<int> numbers) {
-    double sum = 0, cnt = 0;
+    double sum = 0;
     for (auto& x: numbers){
         sum += x;
-        cnt++;
     }
-    return sum / cnt;
+    return sum / numbers.size();
 }
