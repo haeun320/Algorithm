@@ -81,6 +81,9 @@ public class Main {
 		return -1;
 	}
 	
+	// 불을 상하좌우로 확산시키기 ==> 가장자리의 불만 확인한다.
+	// (r,c)의 불을 확산시키고 나면, (r,c)는 더이상 가장자리가 아니다 ==> 가장자리 불 목록에서 삭제
+	// ==> Deque를 사용해서 불 확산 처리 
 	public static void spreadFire() {
 		int size = fire.size();
 		for (int j = 0; j < size; j++) {
@@ -100,7 +103,7 @@ public class Main {
 		return r >= 0 && r < R && c >= 0 && c < C;
 	}
 	
-	public static void printMap() {
+	public static void printMap() { // for debug 
 		System.out.println("=====================");
 		for (int i = 0; i < R; i++) {
 			System.out.println(Arrays.toString(map[i]));
@@ -119,7 +122,7 @@ public class Main {
 			this.c = c;
 			this.level = l;
 		}
-		public String toString() {
+		public String toString() { // for debug
 			return r + " " + c + " " + level;
 		}
 	}
