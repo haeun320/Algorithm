@@ -13,23 +13,23 @@ class Solution {
         
         List<Integer> order = new ArrayList<>();
         int top = 0;
+        int result = 0;
+        
         while (!queue.isEmpty()) {
             int idx = queue.poll();
             if (priorities[idx] == sortedPriorities[top]) {
                 order.add(idx);
                 top++;
+                result++;
+                
+                if (idx == location) {
+                    return result;
+                }
                 continue;
             }
             queue.offer(idx);
         }
         
-        int result = 1;
-        for (int idx : order) {
-            if (idx == location) {
-                return result;
-            }
-            result++;
-        }
         return result;
     }
 }
